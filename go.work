@@ -1,0 +1,9 @@
+go 1.21.6
+
+use (
+	./example/calculator
+	./example/files
+	./example/files/data
+	./example/func
+	./io
+)
