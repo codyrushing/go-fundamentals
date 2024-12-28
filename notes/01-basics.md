@@ -225,3 +225,72 @@ func main() {
 	test()
 }
 ```
+
+#### Complex types
+* Structures
+    * A data type with strongly typed properties
+    * Sort of like a class, non inheritable though
+    * Has default constructor, and can add methods to it just like regular types
+* Interfaces
+    * A definition of methods
+    * Can emulate OOP-style polymorphism
+    * Interfaces can be embedded in other interfaces
+
+Struct usage:
+```go
+package main
+
+import "fmt"
+
+type User struct {
+	id   int
+	name string
+}
+
+func (u User) PrettyPrint() string {
+	return fmt.Sprintf("User %v, name: %v", u.id, u.name)
+}
+
+func main() {
+	var u0 User
+	// default constructor usage, can use named properties or indexed properties
+	u0 = User{id: 1, name: "Some guy"}
+	fmt.Println(u0.PrettyPrint())
+	u1 := User{2, "Cool dude"}
+	fmt.Println(u1.PrettyPrint())
+}
+```
+
+Example is at [/example/types](/example/types/main.go)
+
+__Factories__
+Factories are just functions that return new instances of a type. You could just do 
+
+```go
+User{id: 1, name: "some guy"}
+// or use a factory fn
+func NewUser(id int, name string) User {
+    return User{id: id, name: name}
+}
+```
+
+__Embedding__
+Sort of like extending/polymorphism types in OOP. Not exactly though, the compiler just kind of pastes everything into your new type
+
+__Interfaces__
+Just a list of methods, that can then be used as a type.
+
+# Async 
+## Goroutines
+* Goroutines are how Go uses threads
+* Using `go someFunc()` will run someFunc in a thread
+* The `main` function of a Go program is run in a goroutine, and it can spawn other goroutines
+* Calling a goroutine is like calling an async function in JS, but not awaiting it. If your main function only has gorouting calls, the function will not wait for those to complete.
+* Goroutines share memory, so you likely don't want to mutate variables that are shared by other goroutines
+
+## Channel
+* The way that goroutines communicate with each other
+* A channel contains a value of any type. If goroutines are like promise-returning functions, channels are like the promises themselves
+* Listeners can wait on a channel for its value to be present. Like awaiting a promise.
+* Channels can also be buffered like a Stream, where multiple values are pushed to a channel piecemeal
+* Channels will stay open unless you otherwise close them, so any function listening for a channel will stay open and create a deadlock error

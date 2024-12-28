@@ -1,9 +1,11 @@
 go 1.21.6
 
 use (
+	./example/async
 	./example/calculator
 	./example/files
 	./example/files/data
 	./example/func
+	./example/types
 	./io
 )
